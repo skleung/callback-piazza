@@ -67,10 +67,11 @@
     var questionsTemplate = document.getElementById('questions-template');
     var questionFormTemplate = document.getElementById('question-form-template');
     var expandedQuestionTemplate = document.getElementById('expanded-question-template');
-    var redirectTemplate = document.getElementById('redirect-template')
-
+    var redirectTemplate = document.getElementById('redirect-template');
+    var welcomeTemplate = document.getElementById('welcome-template');
     // compiled Handlebars templates
     var templates = {
+        renderWelcome: Handlebars.compile(welcomeTemplate.innerHTML),
         renderQuestionForm: Handlebars.compile(questionFormTemplate.innerHTML),
         renderQuestions: Handlebars.compile(questionsTemplate.innerHTML),
         renderExpandedQuestion: Handlebars.compile(expandedQuestionTemplate.innerHTML),
@@ -217,7 +218,7 @@
     // TODO: tasks 1-5 and one extension
 
     // display question form initially
-    rightPane.innerHTML = templates.renderQuestionForm();
+    rightPane.innerHTML = templates.renderWelcome();
     leftPane.innerHTML = templates.renderQuestions({questions: getQuestions()});
 
     // TODO: display question list initially (if there are existing questions)

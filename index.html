@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Callback Piazza</title>
+        <meta charset="utf-8" />
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/normalize.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700" />
+    </head>
+
+    <body>
+        <header>
+            <h1><a href="/">Callback Piazza</a></h1>
+        </header>
+
+        <div id="wrapper">
+            <div id="navigation">
+                <div id="interactors">
+                    <!-- buttons and search -->
+                    <a href="#" class="btn">New question form</a>
+                    <input type="text" name="search" id="search"
+                        placeholder="Search questions..." />
+                </div>
+
+                <div id="left-pane">
+                    <!-- add questions to this container -->
+                </div>
+            </div>
+
+            <div id="right-pane">
+                <!-- add question, responses, and response form to this
+                     container when a question is selected -->
+            </div>
+        </div>
+
+        <!-- Handlebars templates -->
+        <!-- template to display all questions in #left-pane tag. -->
+        <script type="text/x-handlebars-template" id="questions-template">
+            {{#if questions}}
+                {{#each questions}}
+                {{! this.id represents this questions identifier in
+                    localStorage. }}
+                <div class="list-question question-info" id="{{ this.id }}">
+                    <h3>{{ this.subject }}</h3>
+                    <p>{{ this.question }}</p>
+                </div>
+                {{/each}}
+            {{else}}
+                {{! no questions exist; display appropriate message }}
+                <div class="list-question">
+                    <p>No questions could be found.</p>
+                </div>
+            {{/if}}
+        </script>
+
+        <!-- template to display expanded question (question, response form,
+             and responses) in #main-panel tag -->
+        <script type="text/x-handlebars-template"
+                id="expanded-question-template">
+            <h3>Question</h3>
+            <div class="question">
+                <h4>{{ subject }}</h4>
+                <p>{{ question }}</p> 
+            </div>
+
+            <div class="resolve-container">
+            
+                <ul class ="tags">
+                {{#if tags}}
+                    {{#each tags}}
+                    <li class = "tag">{{this}}</li>
+                    {{/each}}
+                {{/if}}
+                </ul> 
+
+              <a href="#" class="resolve btn">Resolve</a>
+            </div>
+
+            <div class="responses">
+                <h3>Responses</h3>
+
+                {{#if responses}}
+                    {{#each responses}}
+                    <div class="response">
+                        <h4>{{ this.name }}</h4>
+                        <p>{{ this.response }}</p>
+                    </div>
+                    {{/each}}
+                {{else}}
+                    {{! no responses found }}
+                    <p>No responses submitted yet!</p>
+                {{/if}}
+            </div>
+
+            <form class="cf" id="response-form">
+                <h3>Add Response</h3>
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" name="name" placeholder="John Doe" />
+                </div>
+
+                <div>
+                    <label for="response">Response</label>
+                    <textarea rows="5" cols="40" type="text"
+                        name="response"></textarea>
+                </div>
+                <!--this hidden form element stores the id for the question-->
+                <input type="hidden" name="question_id"/ value="{{id}}">
+
+                <input type="submit" class="btn" value="Submit" />
+            </form>
+        </script>
+
+        <!-- template to display question form in #main-panel tag -->
+        <script type="text/x-handlebars-template" id="question-form-template">
+            <form class="cf" id="question-form">
+
+
+                <div>
+                    <input type="text" name="subject" placeholder="Subject" />
+                </div>
+
+                <div>
+                    <textarea rows="5" cols="40" name="question"
+                        placeholder="Question" id="question-text"></textarea>
+                </div>
+                <div>
+                    <textarea rows="1" cols="30" name="tagged"
+                        placeholder="Tags (e.g. tag1, tag2, tag3)"></textarea>
+                </div>
+                <div>
+                    <ul class="errors" id = "form-errors">
+                    </ul>
+                    <span class = "notice" id = "form-notice">
+                    </span>
+                    <input type="submit" class="btn" value="Submit" /> 
+                </div>
+            </form>
+        </script>
+
+    <!-- template to display home page for site-->
+            <script type="text/x-handlebars-template" id="welcome-template">
+                <h2>Welcome to <span>Callback Piazza</span>!</h2>
+                <p>This is a class project for <a href = "http://callbackme.js">CS 99SI</a>. We were asked to implement a stripped-down version of <a href = "https://piazza.com">Piazza</a>. Our starter files contained an HTML template and provided styles, and we filled in the javascript.</p>
+                <p>As extensions to the project, I added </p>
+                <ul>
+                <li>Search functionality</li>
+                <li>Tagging capabilities</li>
+                <li>Duplicate and similarity testing verification</li>
+                <li>Spellchecking using the <a href = "http://www.javascriptspellcheck.com/">JavaScript Spellcheck Library</a></li>
+                </ul>
+                <p>Begin by starting a new question with the button on the left pane!</p>
+                <p><a href = "http://skleung.github.io"</a>Sherman</p>
+            </script>
+
+        <script type="text/x-handlebars-template" id="redirect-template">
+            <p>{{msg_start}} <a class = "redirect" id="{{redirect_id}}" href="#">{{link_text}}</a> {{msg_end}}</p>
+        </script>
+        <!-- JavaScript -->
+        
+        <!--<script type='text/javascript' src='JavaScriptSpellCheck/include.js' ></script>
+        <script type='text/javascript'>$Spelling.SpellCheckAsYouType('question-text')</script>
+        -->
+
+        <script type="text/javascript" src="js/handlebars.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
+    </body>
+</html>
