@@ -161,9 +161,10 @@
         </script>
         <!-- JavaScript -->
         
-        <!--<script type='text/javascript' src='JavaScriptSpellCheck/include.js' ></script>
-        <script type='text/javascript'>$Spelling.SpellCheckAsYouType('question-text')</script>
-        -->
+        <script type='text/javascript' src='JavaScriptSpellCheck/include.js' ></script>
+        <script type='text/javascript'>
+            if (document.getElementById('question-text')) $Spelling.SpellCheckAsYouType('question-text');
+        </script>
 
         <script type="text/javascript" src="js/handlebars.js"></script>
         <script type="text/javascript" src="js/script.js"></script>
