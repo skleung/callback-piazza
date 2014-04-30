@@ -12,7 +12,7 @@
 
     <body>
         <header>
-            <h1><a href="/">Callback Piazza</a></h1>
+            <h1><a href="/" id="home-link">Callback Piazza</a></h1>
         </header>
 
         <div id="wrapper">
@@ -67,13 +67,14 @@
 
             <div class="resolve-container">
             
-                <ul class ="tags">
+                
                 {{#if tags}}
+                    <ul class ="tags">
                     {{#each tags}}
-                    <li class = "tag">{{this}}</li>
+                        <li class = "tag">{{this}}</li>
                     {{/each}}
+                    </ul> 
                 {{/if}}
-                </ul> 
 
               <a href="#" class="resolve btn">Resolve</a>
             </div>

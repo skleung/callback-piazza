@@ -1,8 +1,14 @@
 (function(window, document, undefined) {
 
+    //constants
+    var SIMILAR_THRESHOLD = 0.7;//this defines the threshold for the string comparison function
+
     // pane elements
     var rightPane = document.getElementById('right-pane');
     var leftPane = document.getElementById('left-pane');
+
+    //home button
+    var homeButton = document.getElementById('home-link');
     // TODO: add other panes here
 
     // button and input elements
@@ -52,6 +58,11 @@
         if (event.target.className === "btn"){
             rightPane.innerHTML = templates.renderQuestionForm();
         }
+    });
+
+    homeButton.addEventListener("click", function(event){
+        event.preventDefault();
+        rightPane.innerHTML = templates.renderWelcome();
     });
 
     search.addEventListener("keyup", function(event){
@@ -146,15 +157,20 @@
             var q_id = subject_val+" "+question_val;
             var map = getMap();
 
-            var tags = formElement.tagged.value.split(',');
-
-            var new_q = {subject: subject_val, question: question_val, id: q_id, responses: [], tags: tags};
+            var tag_arr = formElement.tagged.value.split(',');
+            //weird feature of the split function returning a [""] with one array element?
+            if (tag_arr[0].length === 0 ) tag_arr = [];
+            var new_q = {subject: subject_val, question: question_val, id: q_id, responses: [], tags: tag_arr};
+            var similar_question = compareQuestions(q_id);
             //check if question has been asked before
             if (q_id in map) {
                 redirect("Duplicate question: click ", "here", "to view", q_id);
                 return; 
             }else if(question_val.length > 500){
                 error("question has exceeded the character limit!");
+                return;
+            }else if(similar_question){
+                redirect("A similar ", "question", " has been asked before.", similar_question);
                 return;
             }
             //questions.unshift(new_q);
@@ -167,11 +183,36 @@
             error("Empty subject or question field.");
         }
     }
+    /*this function was taken from Stack Overflow*/
+    function removeDuplicates(arr){
+        return arr.filter(function(elem, pos, self){
+            return self.indexOf(elem) == pos;
+        });
+    }
+    
+    function compareQuestions(content){
+        var map = getMap();
+        for (key in map){
+            if (compareQuestion(content, key)) return key;
+        }
+        return "";
+    }
     /*Similarity function: Rudimentary measure of the similarity of two strings
-    1. 
-
+    1. I split according to white space
+    2. And count how many words are contained within both strings
+    3. I return true above a certain threshold, and if they have the same subject
     */
-
+    function compareQuestion(str1, str2){
+        var arr1 = str1.toLowerCase().toLowerCase().split(" ");
+        var arr2 = str2.toLowerCase().split(" ");
+        var similarilty_count = 0;
+        for (var i=0; i< arr1.length; i++){
+            if (arr2.indexOf(arr1[i])>=0) 
+                similarilty_count++;
+        }
+        if (arr1[0] ===arr2[0] && similarilty_count/arr1.length > SIMILAR_THRESHOLD) return true;  
+        return false;
+    }
     /* Returns the questions in the map */
     function getQuestions(){
         var questions = [];
