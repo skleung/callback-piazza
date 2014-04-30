@@ -158,7 +158,7 @@
             var map = getMap();
 
             var tag_arr = formElement.tagged.value.split(',');
-            //weird feature of the split function returning a [""] with one array element?
+            //weird feature of the split function return [""] with one array element?
             if (tag_arr[0].length === 0 ) tag_arr = [];
             var new_q = {subject: subject_val, question: question_val, id: q_id, responses: [], tags: tag_arr};
             var similar_question = compareQuestions(q_id);
