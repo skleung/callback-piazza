@@ -110,6 +110,8 @@
                 <!--this hidden form element stores the id for the question-->
                 <input type="hidden" name="question_id"/ value="{{id}}">
 
+        <!-- list for form errors -->
+                <ul class="errors" id = "form-errors"></ul>
                 <input type="submit" class="btn" value="Submit" />
             </form>
         </script>
@@ -149,7 +151,8 @@
                 <ul>
                 <li>Search functionality</li>
                 <li>Tagging capabilities</li>
-                <li>Duplicate and similarity testing verification</li>
+                <li>Form validation: &gt;50 chars and &lt;500 chars or a duplicate question</li>
+                <li>Has the question been asked before? <small>(I used a word count threshold instead of semanatics)</small></li>
                 <li>Spellchecking using the <a href = "http://www.javascriptspellcheck.com/">JavaScript Spellcheck Library</a></li>
                 </ul>
                 <p>Begin by starting a new question with the button on the left pane!</p>

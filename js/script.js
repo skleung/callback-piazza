@@ -120,22 +120,20 @@
         var name = answer.name.value;
         var response = answer.response.value;
         if (name && response){//ensures these values aren't empty
+            if (response.length > 500 || response.length < 50){
+                error("Response length must be between 50 and 500");
+                return;
+            }
             var q_id = answer.question_id.value;
             var map = getMap();
             map[q_id].responses.push({name: name, response: response});
             storeMap(map);
             //re-renders right pane to clear form and update responses
             rightPane.innerHTML = templates.renderExpandedQuestion(map[q_id]);
+        }else{
+            error("Empty name or response field");
         }
     }
-    /* simple random id generator */
-    // function makeid(){
-    //     var id = "";
-    //     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    //     for( var i=0; i < 6; i++ )
-    //         text += possible.charAt(Math.floor(Math.random() * possible.length));
-    //     return id;
-    // }
 
     function error(msg){
         var errors = document.getElementById('form-errors');
@@ -166,8 +164,8 @@
             if (q_id in map) {
                 redirect("Duplicate question: click ", "here", "to view", q_id);
                 return; 
-            }else if(question_val.length > 500){
-                error("question has exceeded the character limit!");
+            }else if(question_val.length < 50 || question_val.length > 500){
+                error("Question description must be between 50 and 500");
                 return;
             }else if(similar_question){
                 redirect("A similar ", "question", " has been asked before.", similar_question);
